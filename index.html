@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>실버 웨이트 성적표</title>
+
+  <!-- 결과 저장용 라이브러리 -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+
+  <style>
+    body {
+      font-family: 'Pretendard', sans-serif;
+      background: linear-gradient(135deg, #d7dbe2, #f4f6f8);
+      text-align: center;
+      padding: 40px 20px;
+      color: #333;
+    }
+    .card {
+      background: linear-gradient(145deg, #ffffff, #e6e9ef);
+      border-radius: 20px;
+      padding: 30px;
+      max-width: 420px;
+      margin: auto;
+      box-shadow: 0 10px 30px rgba(0,0,0,0.15);
+      border: 1px solid #d0d3d8;
+    }
+    h1 { font-size: 22px; margin-bottom: 10px; }
+    input {
+      padding: 12px;
+      width: 80%;
+      border-radius: 10px;
+      border: 1px solid #bbb;
+      margin: 15px 0;
+      font-size: 16px;
+      text-align: center;
+    }
+    button {
+      background: linear-gradient(90deg, #cfd2d6, #b8bcc2);
+      border: none;
+      padding: 12px 20px;
+      border-radius: 12px;
+      font-weight: bold;
+      cursor: pointer;
+      margin: 6px;
+    }
+    .result {
+      margin-top: 25px;
+      text-align: left;
+      font-size: 15px;
+      line-height: 1.6;
+    }
+    .highlight { font-weight: bold; color: #222; }
+    .forest {
+      text-align: center;
+      font-size: 40px;
+      margin-top: 15px;
+    }
+    hr { margin: 15px 0; border: none; border-top: 1px solid #ccc; }
+  </style>
+</head>
+<body>
+
+  <div class="card" id="captureArea">
+    <h1>📘 실버 웨이트 성적표</h1>
+    <p>버린 교재와 시험지의 무게를 입력하세요</p>
+
+    <input type="number" id="weight" placeholder="예: 3.2 (kg)" step="0.1" />
+    <br/>
+    <button onclick="generateResult()">성적표 확인하기</button>
+
+    <div class="result" id="resultBox"></div>
+  </div>
+
+  <br>
+  <button onclick="saveImage()">📸 결과 화면 저장하기</button>
+
+  <script>
+    function generateResult() {
+      const weight = document.getElementById("weight").value;
+      const weightNum = parseFloat(weight);
+
+      if (!weightNum || weightNum <= 0) {
+        alert("무게를 입력해주세요!");
+        return;
+      }
+
+      const treesSaved = (weightNum * 0.02).toFixed(2);
+      const co2Reduced = (weightNum * 1.5).toFixed(1);
+
+      const messages = [
+        "오늘 버린 무게만큼, 내일의 머리는 더 가벼워질 거예요.",
+        "수고 많았어요. 당신의 노력은 이미 충분히 빛나고 있어요.",
+        "시험은 끝났고, 당신의 가능성은 이제 시작입니다.",
+        "포기하지 않은 당신, 이미 합격자 마인드입니다."
+      ];
+      const randomMsg = messages[Math.floor(Math.random() * messages.length)];
+
+      let forestHTML = "";
+      if (weight.includes("9.9")) {
+        forestHTML = `<div class="forest">🌲🌳🌲<br><b>숲을 만든 당신, 9.90의 기적!</b></div>`;
+      }
+
+      document.getElementById("resultBox").innerHTML = `
+        <p>📦 당신이 비워낸 무게: <span class="highlight">${weightNum}kg</span></p>
+        <p>🌳 환경 기여도: 나무 <span class="highlight">${treesSaved}그루</span> 보호 효과</p>
+        <p>🌍 탄소 절감 효과: 약 <span class="highlight">${co2Reduced}kg</span> CO₂ 감소</p>
+        ${forestHTML}
+        <hr/>
+        <p>💬 시험 응원 메시지</p>
+        <p class="highlight">"${randomMsg}"</p>
+        <hr/>
+        <p>💚 당신의 실천이 자원순환을 만들었습니다.<br>
+        환경 보호에 함께해줘서 감사합니다.</p>
+      `;
+    }
+
+    function saveImage() {
+      html2canvas(document.querySelector("#captureArea")).then(canvas => {
+        const link = document.createElement("a");
+        link.download = "silver-weight-score.png";
+        link.href = canvas.toDataURL();
+        link.click();
+      });
+    }
+  </script>
+
+</body>
+</html>

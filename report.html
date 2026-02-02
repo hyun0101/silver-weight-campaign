@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>실버 웨이트 캠페인 결과</title>
+  <style>
+    body {
+      margin: 0;
+      font-family: 'Pretendard', sans-serif;
+      background: linear-gradient(180deg, #eef1f5, #dfe3e8);
+      text-align: center;
+      color: #222;
+    }
+    .container {
+      max-width: 500px;
+      margin: auto;
+      padding: 30px 20px 60px;
+    }
+    h1 {
+      font-size: 22px;
+      margin-bottom: 5px;
+    }
+    .subtitle {
+      font-size: 14px;
+      color: #666;
+      margin-bottom: 25px;
+    }
+    .card {
+      background: white;
+      border-radius: 18px;
+      padding: 18px;
+      margin-bottom: 15px;
+      box-shadow: 0 6px 15px rgba(0,0,0,0.08);
+      text-align: left;
+    }
+    .branch {
+      font-weight: bold;
+      font-size: 16px;
+    }
+    .weight {
+      float: right;
+      color: #555;
+    }
+    .total-box {
+      background: linear-gradient(135deg, #cfd2d6, #b8bcc2);
+      color: #111;
+      border-radius: 20px;
+      padding: 25px;
+      margin-top: 25px;
+    }
+    .big {
+      font-size: 26px;
+      font-weight: bold;
+      margin: 8px 0;
+    }
+    .tree {
+      font-size: 40px;
+      margin-top: 10px;
+    }
+    .footer {
+      font-size: 12px;
+      color: #777;
+      margin-top: 25px;
+    }
+  </style>
+</head>
+<body>
+
+<div class="container">
+  <h1>📘 실버 웨이트 자원순환 리포트</h1>
+  <div class="subtitle">카스 0.0 × 해커스 캠페인</div>
+
+  <div id="branchList"></div>
+
+  <div class="total-box">
+    <div>총 수거 무게</div>
+    <div class="big" id="totalWeight">0 kg</div>
+    <div>보호한 소나무 수</div>
+    <div class="big" id="treeCount">0 그루</div>
+    <div class="tree">🌲🌲🌲</div>
+  </div>
+
+  <div class="footer">
+    버려진 교재는 자원으로, 노력은 응원으로 돌아갑니다 💚<br>
+    환경 보호에 함께해주셔서 감사합니다.
+  </div>
+</div>
+
+<script>
+  // 🔧 지점별 수거 무게 입력 (kg 단위)
+  const branches = [
+    { name: "강남 해커스", weight: 128.5 },
+    { name: "종로 해커스", weight: 96.2 },
+    { name: "신촌 해커스", weight: 143.8 },
+    { name: "부산 해커스", weight: 88.4 }
+  ];
+
+  const branchList = document.getElementById("branchList");
+  let totalWeight = 0;
+
+  branches.forEach(branch => {
+    totalWeight += branch.weight;
+    branchList.innerHTML += `
+      <div class="card">
+        <span class="branch">${branch.name}</span>
+        <span class="weight">${branch.weight} kg</span>
+      </div>
+    `;
+  });
+
+  // 🌲 종이 1kg당 소나무 0.02그루 보호 효과 (캠페인 환산 기준)
+  const treesSaved = (totalWeight * 0.02).toFixed(1);
+
+  document.getElementById("totalWeight").innerText = totalWeight.toFixed(1) + " kg";
+  document.getElementById("treeCount").innerText = treesSaved + " 그루";
+</script>
+
+</body>
+</html>
+
